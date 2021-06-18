@@ -1,0 +1,34 @@
+{% extends "auctions/layout.html" %}
+
+{% block main-color %}color-category{% endblock %}
+
+{% block body %}
+    <h2 style="text-transform: capitalize;">{{ category_name }}</h2>
+
+    <div class="card-group">
+    {% for listing in listings %}
+        <a class="custom-card-link" href="{% url 'listing' listing.id %}">
+            <div class="card h-100">
+                <img class="card-img-top" alt="{{ listing.item }}"
+                    {% if listing.image_URL %}
+                    src="{{ listing.image_URL }}"
+                    {% else %}
+                    src="https://st3.depositphotos.com/23594922/31822/v/600/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg"
+                    {% endif %}
+                >
+                <div class="card-body">
+                    <h5 class="card-title">{{ listing.item }}</h5>
+                    <h6 class="card-title"><em>RIB
+                        {% if listing.highest_bid %}
+                            {{ listing.highest_bid.bid }}
+                        {% else %}
+                            {{ listing.starting_bid }}
+                        {% endif %}
+                    </em></h6>
+                    <p class="card-text">{{ listing.description }}</p>
+                </div>
+            </div>
+        </a>
+    {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends "auctions/layout.html" %}
+
+{% block main-color %}color-listing{% endblock %}
+
+{% block body %}
+
+    {% if message %}
+    <div class="alert alert-warning" role="alert">
+        {{ message }}
+    </div>
+    {% endif %}
+    <div class="listing-container">
+
+        <div class="listing-group-1">
+
+            <h2>{{ listing.item }}
+                {% if user.is_authenticated %}
+                    <!-- watchlist toggle -->
+                    <form action="{% url 'listing' listing.id %}" method="post">
+                        {% csrf_token %}
+                        <input class="btn btn-secondary btn-watchlist" type="submit" name="action"
+                            {% if in_watchlist %}
+                                value="Remove from Watchlist"
+                            {% else %}
+                                value="Add to Watchlist"
+                            {% endif %}
+                        >
+                    </form>
+                {% endif %}
+            </h2>
+            <p><em>sold by: <strong>{{ listing.seller.username }}</strong></em></p>
+            <p>category: <strong>{{ listing.category.name }}</strong></p>
+            <p>{{ listing.description }}</p>
+            <hr>
+
+            <!-- bid status -->
+            {% if listing.highest_bid %}
+                <p>{{ bid_count }} bids so far. Current highest bid:</p>
+                <h2>RIB {{ listing.highest_bid.bid }} <span>by <strong><em>{{ listing.highest_bid.bidder.username }}</em></strong></span></h2>
+            {% else %}
+                <p>No bids yet. Starting bid:</p>
+                <h2>RIB {{ listing.starting_bid }}</h2>
+            {% endif %}
+
+            {% if listing.is_open %}
+                <!-- show open bid status -->
+                <p><strong>Listing is open.</strong></p>
+                {% if user.is_authenticated %}
+                    {% if is_owner %}
+                        <!-- close listing form -->
+                        <p>You own this listing.</p>
+                        <form action="{% url 'listing' listing.id %}" method="post">
+                            {% csrf_token %}
+                            <input class="btn btn-success" type="submit" name="action" value="Close Listing">
+                        </form>
+                    {% else %}
+                        <!-- place bid form -->
+                        <form action="{% url 'listing' listing.id %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <input class="form-control" type="number" min="{{ allowed_bid }}" name="bid" placeholder="{{ allowed_bid }}" step=0.01 required>
+                            </div>
+                            <input class="btn btn-success" type="submit" name="action" value="Place Bid">
+                        </form>
+                    {% endif %}
+                {% endif %}
+            {% else %}
+                <!-- show closed bid status -->
+                <p><strong>Listing is closed.</strong></p>
+                    {% if is_winner %}
+                        <p><strong>Congratulations! You have won this auction!</strong></p>
+                    {% else %}
+                        <p><em><strong>{{ listing.highest_bid.bidder.username }}</strong></em> won this auction!</p>
+                    {% endif %}
+                </p>
+            {% endif %}
+
+        </div>
+
+        <div class="listing-group-2">
+            <img alt="{{ listing.item }}"
+                {% if listing.image_URL %}
+                src="{{ listing.image_URL }}"
+                {% else %}
+                src="https://st3.depositphotos.com/23594922/31822/v/600/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg"
+                {% endif %}
+            >
+        </div>
+
+        <div class="listing-group-3">
+            <!-- comment writing -->
+            {% if user.is_authenticated %}
+                <form action="{% url 'listing' listing.id %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <textarea class="form-control" name="comment" required="required" placeholder="Write Comment..." rows="2"></textarea>
+                    </div>
+                    <input class="btn btn-success" type="submit" name="action" value="Post Comment">
+                </form>
+            {% endif %}
+
+            <!-- comment display -->
+            {% for comment in comments %}
+            <div class="card comment-card">
+                <div><strong>{{ comment.commenter.username }}</strong></div>
+                <!-- TODO comment timestamps? <p>{ commment.datetime_created... but turn it into a string }}</p> -->
+                <div>{{ comment.comment }}</div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+{% endblock %}

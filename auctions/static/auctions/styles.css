@@ -1,0 +1,114 @@
+html, body {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+body > * {flex-shrink: 0;}
+
+.custom-logo {height: 2.5rem;}
+
+h1, h2 {font-family: 'Nunito', sans-serif;}
+
+.custom-head {
+    padding: 10px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.custom-main {
+    padding: 10px;
+    font-family: 'Open Sans', sans-serif;
+    flex-grow: 1;
+}
+
+.color-index {background-color: #ebc9f9;}
+.color-new {background-color: #f9eec9;}
+.color-listing {background-color: #bcffd8;}
+.color-watchlist {background-color: #c9eaf9;}
+.color-category {background-color: #f9c9c9;}
+
+
+
+div.card-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+a.custom-card-link,
+a.custom-card-link:hover {
+    color: inherit;
+    text-decoration: inherit;
+    width: 15rem;
+    margin: 0.5rem 0rem;
+}
+
+a.custom-card-link:hover {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+img.card-img-top {
+    height: 12rem;
+    object-fit: contain;
+}
+
+
+
+.custom-new-container {display: flex;}
+.custom-new {width: 70%;}
+
+
+
+.listing-container {
+    display: flex;
+    flex-wrap: wrap;
+    /* justify-content:center; */
+}
+
+.listing-group-1, .listing-group-2, .listing-group-3 {
+    width: 46rem;
+    padding: 1rem;
+}
+
+/* .listing-group-1 {background-color: rgb(221, 105, 105);} */
+
+.listing-group-1 form {
+    display: inline-block;
+    margin-left: 0.5rem;
+}
+
+.listing-group-1 .btn-watchlist {
+    margin-bottom: 0;
+    font-size: 0.45em;
+    padding: 0 0.35rem;
+}
+
+h2 span {
+    font-size: 1rem;
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* .listing-group-2 {background-color: white;} */
+.listing-group-3 {width: 100%;}
+
+.listing-group-3 form {
+    margin: 0.5rem 0;
+    width: max(70%, 25rem);
+}
+
+.comment-card {
+    margin: 0.5rem 0; 
+    width: max(70%, 42rem);
+}
+.comment-card div {margin-left: 0.5rem;}
+
+.listing-container img {
+    width: 35rem;
+    height: 25rem;
+    object-fit: contain;
+    margin: auto;
+}
+
+.listing-group-3 .btn {margin-bottom: 0.5rem;}

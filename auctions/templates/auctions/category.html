@@ -1,0 +1,26 @@
+{% extends "auctions/layout.html" %}
+
+{% block main-color %}color-category{% endblock %}
+
+{% block body %}
+    <h2>Browse by Category</h2>
+
+    <div class="card-group">
+    {% for category in categories %}
+        <a class="custom-card-link" href="{% url 'filtered' category.id %}">
+            <div class="card h-100">
+                <div class="card-body">
+                    {{ category.name }}
+                </div>
+            </div>
+        </a>
+    {% endfor %}
+        <a class="custom-card-link" href="{% url 'filtered' 0 %}">
+            <div class="card h-100">
+                <div class="card-body">
+                    Uncategorized
+                </div>
+            </div>
+        </a>
+    </div>
+{% endblock %}
